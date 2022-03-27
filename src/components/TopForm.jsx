@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
 export default function TopForm() {
+  const { setSearched } = useContext(StarWarsContext);
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+  const handleChange = ({ target }) => {
+    setSearched(target.value);
+  };
+
   return (
-    <form onSubmit={ handleSubmit }>
-      <input
-        type="text"
-        placeholder="Qual planeta você deseja encontrar?"
-        name="input-planet"
-      />
-      <button type="submit">
-        Search
-      </button>
-    </form>
+    <nav>
+      <form onSubmit={ handleSubmit }>
+        <input
+          data-testid="name-filter"
+          type="text"
+          placeholder="Qual planeta você deseja encontrar?"
+          name="input-planet"
+          onChange={ handleChange }
+        />
+      </form>
+      <form>
+        <select>
+          <option>option test</option>
+        </select>
+      </form>
+    </nav>
   );
 }
