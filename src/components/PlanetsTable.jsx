@@ -15,23 +15,26 @@ export default function PlanetsTable() {
       ))
       .filter((planet) => {
         if (numericFilter.length > 0) {
-          let validate = true;
-          numericFilter.forEach((item) => {
+          return numericFilter.every((item) => {
             const { comparison, filter, numberValue } = item;
-            switch (comparison) {
-            case 'maior que':
-              validate = (Number(planet[filter]) > Number(numberValue));
-              break;
-            case 'menor que':
-              validate = (Number(planet[filter]) < Number(numberValue));
-              break;
-            case 'igual a':
-              validate = (Number(planet[filter]) === Number(numberValue));
-              break;
-            default: throw new Error('Comparsion Fail!');
+            if (comparison === 'maior que') {
+              return (Number(planet[filter]) > Number(numberValue));
             }
+            if (comparison === 'menor que') {
+              return (Number(planet[filter]) < Number(numberValue));
+            }
+            return (Number(planet[filter]) === Number(numberValue));
+            /* switch (comparison) {
+            case 'maior que':
+              return (Number(planet[filter]) > Number(numberValue));
+            case 'menor que':
+              return (Number(planet[filter]) < Number(numberValue));
+            case 'igual a':
+              return (Number(planet[filter]) === Number(numberValue));
+            default:
+              return false;
+            } */
           });
-          return validate;
         }
         return true;
       });
@@ -57,7 +60,7 @@ export default function PlanetsTable() {
             <th>Edited</th>
             <th>URL</th>
           </tr>
-          { filteredPlanets.map((filtered, index) => (
+          { filteredPlanets?.map((filtered, index) => (
             <tr key={ index }>
               <td>{filtered.name}</td>
               <td>{filtered.rotation_period}</td>
