@@ -60,9 +60,9 @@ export default function PlanetsTable() {
             <th>Edited</th>
             <th>URL</th>
           </tr>
-          { filteredPlanets?.map((filtered, index) => (
+          { filteredPlanets.map((filtered, index) => (
             <tr key={ index }>
-              <td>{filtered.name}</td>
+              <td data-testid="planet-name">{filtered.name}</td>
               <td>{filtered.rotation_period}</td>
               <td>{filtered.orbital_period}</td>
               <td>{filtered.diameter}</td>
