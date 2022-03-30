@@ -4,11 +4,9 @@ import './PlanetsTable.css';
 
 export default function PlanetsTable() {
   const { planets, searchedPlanet, numericFilter } = useContext(StarWarsContext);
-  // local
   const [filteredPlanets, setFiltered] = useState([]);
 
   useEffect(() => {
-    setFiltered(planets);
     const result = planets
       .filter((planet) => (
         planet.name.toLowerCase().includes(searchedPlanet.toLowerCase())
@@ -24,16 +22,6 @@ export default function PlanetsTable() {
               return (Number(planet[filter]) < Number(numberValue));
             }
             return (Number(planet[filter]) === Number(numberValue));
-            /* switch (comparison) {
-            case 'maior que':
-              return (Number(planet[filter]) > Number(numberValue));
-            case 'menor que':
-              return (Number(planet[filter]) < Number(numberValue));
-            case 'igual a':
-              return (Number(planet[filter]) === Number(numberValue));
-            default:
-              return false;
-            } */
           });
         }
         return true;
@@ -62,7 +50,7 @@ export default function PlanetsTable() {
           </tr>
           { filteredPlanets.map((filtered, index) => (
             <tr key={ index }>
-              <td data-testid="planet-name">{filtered.name}</td>
+              <td>{filtered.name}</td>
               <td>{filtered.rotation_period}</td>
               <td>{filtered.orbital_period}</td>
               <td>{filtered.diameter}</td>
