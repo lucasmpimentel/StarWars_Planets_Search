@@ -13,19 +13,20 @@ export default function TopForm() {
   const [filterOptions, setFilterOptions] = useState(INITIAL_FILTERS);
   const [apllyedFilters, setApllyedFilters] = useState([]);
   const [numberValue, setNumberValue] = useState(0);
+  const [filter, setFilter] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { target: { filter, comparison } } = event;
     const result = {
-      filter: filter.value,
-      comparison: comparison.value,
+      filter,
+      comparison,
       numberValue,
     };
-    const newFilterOptions = filterOptions.filter((item) => item !== filter.value);
-    setFilterOptions(newFilterOptions);
-    setApllyedFilters([...apllyedFilters, filter.value]);
     setNumericFilter([...numericFilter, result]);
+    const newFilterOptions = filterOptions.filter((item) => item !== filter);
+    setFilterOptions(newFilterOptions);
+    setApllyedFilters([...apllyedFilters, filter]);
     setNumberValue(0);
   };
 
@@ -65,13 +66,21 @@ export default function TopForm() {
           onChange={ handleChange }
         />
       </form>
-      <form onSubmit={ handleSubmit }>
-        <select name="filter" data-testid="column-filter">
+      <form>
+        <select
+          name="filter"
+          data-testid="column-filter"
+          onChange={ ({ target }) => setFilter(target.value) }
+        >
           { filterOptions.map((item) => (
             <option key={ item } value={ item }>{item}</option>
           )) }
         </select>
-        <select name="comparison" data-testid="comparison-filter">
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ ({ target }) => setComparison(target.value) }
+        >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -82,9 +91,9 @@ export default function TopForm() {
           type="number"
           placeholder="0"
           value={ numberValue }
-          onChange={ (event) => setNumberValue(event.target.value) }
+          onChange={ ({ target }) => setNumberValue(target.value) }
         />
-        <button data-testid="button-filter" type="submit">
+        <button data-testid="button-filter" type="button" onClick={ handleSubmit }>
           Filtrar
         </button>
         <button
@@ -95,9 +104,9 @@ export default function TopForm() {
           Remover Filtros
         </button>
       </form>
-      { apllyedFilters.length > 0 && apllyedFilters.map((filter, index) => (
-        <label data-testid="filter" htmlFor="remove" id={ filter } key={ index }>
-          {`${filter} `}
+      { apllyedFilters.length > 0 && apllyedFilters.map((item, index) => (
+        <label data-testid="filter" htmlFor="remove" id={ item } key={ index }>
+          {`${item} `}
           <button id="remove" type="button" onClick={ handleRemoveClick }>x</button>
         </label>
       )) }
